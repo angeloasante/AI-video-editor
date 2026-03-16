@@ -217,6 +217,8 @@ The backend uses `@google/generative-ai` (Google GenAI SDK) for all Gemini inter
 
 ## Architecture Diagram
 
+> **Visual version:** [kluxta.com/architecture](https://kluxta.com/architecture)
+
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │                    Frontend (Next.js 16)                      │
@@ -547,14 +549,36 @@ cd layerai-backend/python && uvicorn main:app --reload --port 8001
 
 ### Google Cloud Deployment (Cloud Run)
 
+A unified `Dockerfile` at the repo root runs both Node.js API + Python FFmpeg service in a single container via `supervisord`:
+
 ```bash
-# Build and push Docker images
-docker build -t gcr.io/YOUR_PROJECT/layerai-api ./layerai-backend
-docker build -t gcr.io/YOUR_PROJECT/layerai-ffmpeg ./layerai-backend/python
+# Build the combined image
+docker build -t gcr.io/YOUR_PROJECT/kluxta-backend .
+
+# Push to Google Container Registry
+docker push gcr.io/YOUR_PROJECT/kluxta-backend
 
 # Deploy to Cloud Run
-gcloud run deploy layerai-api --image gcr.io/YOUR_PROJECT/layerai-api --region us-central1
-gcloud run deploy layerai-ffmpeg --image gcr.io/YOUR_PROJECT/layerai-ffmpeg --region us-central1
+gcloud run deploy kluxta-backend \
+  --image gcr.io/YOUR_PROJECT/kluxta-backend \
+  --region us-central1 \
+  --port 3001 \
+  --memory 2Gi \
+  --cpu 2 \
+  --set-env-vars "PYTHON_API_URL=http://localhost:8001" \
+  --allow-unauthenticated
+```
+
+Or deploy as separate services using the individual Dockerfiles:
+
+```bash
+# Node.js API only
+docker build -t gcr.io/YOUR_PROJECT/kluxta-api ./layerai-backend
+gcloud run deploy kluxta-api --image gcr.io/YOUR_PROJECT/kluxta-api --region us-central1
+
+# Python FFmpeg only
+docker build -t gcr.io/YOUR_PROJECT/kluxta-ffmpeg ./layerai-backend/python
+gcloud run deploy kluxta-ffmpeg --image gcr.io/YOUR_PROJECT/kluxta-ffmpeg --region us-central1
 ```
 
 ---
