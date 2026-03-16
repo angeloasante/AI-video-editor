@@ -52,9 +52,9 @@ export function EditorHeader({
           onClick={() => router.push("/projects")}
           className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity"
         >
-          <Image src="/logo.png" alt="Klusta" width={24} height={24} />
+          <Image src="/logo.png" alt="Kluxta" width={24} height={24} />
           <span className="font-semibold text-sm tracking-tight text-blue-400 hidden lg:inline">
-            Klusta
+            Kluxta
           </span>
         </button>
 

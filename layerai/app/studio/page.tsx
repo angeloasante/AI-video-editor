@@ -38,7 +38,7 @@ export default function StudioPage() {
     <Suspense fallback={
       <div className="h-screen w-full flex flex-col items-center justify-center bg-[#0a0a0b] relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-b from-blue-500/10 to-transparent blur-[100px] pointer-events-none" />
-        <img src="/logo.png" alt="Klusta" className="w-10 h-10 mb-4 animate-pulse" />
+        <img src="/logo.png" alt="Kluxta" className="w-10 h-10 mb-4 animate-pulse" />
         <div className="text-neutral-400 text-sm font-medium">Loading studio...</div>
       </div>
     }>
@@ -836,7 +836,7 @@ function StudioContent() {
     return (
       <div className="h-screen w-full flex flex-col items-center justify-center bg-[#0a0a0b] relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-b from-blue-500/10 to-transparent blur-[100px] pointer-events-none" />
-        <img src="/logo.png" alt="Klusta" className="w-10 h-10 mb-4 animate-pulse" />
+        <img src="/logo.png" alt="Kluxta" className="w-10 h-10 mb-4 animate-pulse" />
         <div className="text-neutral-400 text-sm font-medium">Loading studio...</div>
       </div>
     );

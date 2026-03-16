@@ -1,4 +1,4 @@
-# Klusta
+# Kluxta
 
 **The Figma of AI Video — Voice-First, Asset-Aware, Context-Intelligent Video Production**
 
@@ -44,7 +44,7 @@ You prompt. A model generates a flat video. You want to change one thing. You re
 
 Nobody treats an AI-generated video as a structured, editable project. Every platform outputs a flat file. No layers. No asset memory. No scene intelligence. It is the equivalent of Photoshop giving you a JPG with no layers and saying "good luck."
 
-| Today's workflow | Klusta's workflow |
+| Today's workflow | Kluxta's workflow |
 |------------------|-------------------|
 | Prompt → flat video → want to change jacket colour → reprompt entire scene → character looks different → mood changed → lighting shifted → repeat 20x | Speak naturally → Gemini understands intent → edits only that element → context auto-matched → result is consistent → done in one pass |
 
@@ -52,9 +52,9 @@ Nobody treats an AI-generated video as a structured, editable project. Every pla
 
 ## 2. The Solution
 
-### Klusta — voice-first, AI-orchestrated video production
+### Kluxta — voice-first, AI-orchestrated video production
 
-Klusta is the first AI video platform that decomposes generated video into editable layers, stores scene intelligence as persistent DNA, and uses Gemini as the orchestration brain — accepting voice input, enhancing prompts automatically, and ensuring every edit stays visually consistent.
+Kluxta is the first AI video platform that decomposes generated video into editable layers, stores scene intelligence as persistent DNA, and uses Gemini as the orchestration brain — accepting voice input, enhancing prompts automatically, and ensuring every edit stays visually consistent.
 
 Users speak or type naturally. Gemini understands intent, enhances prompts with full scene context, routes requests to the correct model (video, image, voice), and narrates results back. The experience feels like directing a production crew — not wrestling with a prompt box.
 
@@ -62,7 +62,7 @@ Users speak or type naturally. Gemini understands intent, enhances prompts with 
 
 ## 3. Scene DNA — The Core Innovation
 
-Every video generated on Klusta is paired with a structured JSON file called the **Scene DNA**. Every AI model in the pipeline reads from it and writes to it. It is the source of truth for the entire project.
+Every video generated on Kluxta is paired with a structured JSON file called the **Scene DNA**. Every AI model in the pipeline reads from it and writes to it. It is the source of truth for the entire project.
 
 ```json
 {
@@ -109,7 +109,7 @@ When a user edits any element, the thinking model reads this file. It knows the 
 
 Before a video is generated, users can build a persistent character library. This eliminates the hardest part of the pipeline — trying to extract a character cleanly from an already-generated video — by designing them upfront.
 
-This maps to how real film production works. You cast your actors before you shoot. You design characters before you animate. Klusta is the first AI video platform that enforces this correct production order.
+This maps to how real film production works. You cast your actors before you shoot. You design characters before you animate. Kluxta is the first AI video platform that enforces this correct production order.
 
 ### Workflow
 
@@ -175,7 +175,7 @@ This maps to how real film production works. You cast your actors before you sho
 
 ## 6. Gemini's Role — The Brain
 
-Gemini is not just a feature in Klusta. It is the entire nervous system. Every user action passes through Gemini. Every model call is dispatched by Gemini. Every result is narrated by Gemini.
+Gemini is not just a feature in Kluxta. It is the entire nervous system. Every user action passes through Gemini. Every model call is dispatched by Gemini. Every result is narrated by Gemini.
 
 | Gemini Role | Model | What it does |
 |-------------|-------|--------------|
@@ -202,7 +202,7 @@ After Gemini: "A Nigerian man in a red tracksuit sprinting in
               Shallow depth of field. Cinematic 16:9."
 ```
 
-Users get dramatically better outputs without knowing why. They attribute the quality to Klusta, not to Kling or Runway underneath. That is how you build brand equity on top of commodity models.
+Users get dramatically better outputs without knowing why. They attribute the quality to Kluxta, not to Kling or Runway underneath. That is how you build brand equity on top of commodity models.
 
 ---
 
@@ -348,9 +348,9 @@ PYTHON_API_URL=
 
 ## 11. Gemini Live Challenge Fit
 
-### How Klusta satisfies every requirement
+### How Kluxta satisfies every requirement
 
-| Requirement | How Klusta satisfies it |
+| Requirement | How Kluxta satisfies it |
 |-------------|-------------------------|
 | Next-gen AI agent | Gemini orchestrates an entire video production pipeline end-to-end |
 | Multimodal inputs + outputs | Voice in → video + image + audio out |
@@ -501,16 +501,16 @@ This is not an invented problem. The frustration of flat-video AI generation is 
 ## 16. The Moat
 
 1. **Asset decomposition — no one else does this**  
-   Every other platform outputs a flat video file. Klusta outputs a structured project — video + layers + Scene DNA. That is a fundamentally different product category.
+   Every other platform outputs a flat video file. Kluxta outputs a structured project — video + layers + Scene DNA. That is a fundamentally different product category.
 
 2. **Persistent scene intelligence**  
-   Scene DNA persists across every edit. The more you use Klusta, the smarter it is about your project. Switching platforms means losing all of that accumulated context.
+   Scene DNA persists across every edit. The more you use Kluxta, the smarter it is about your project. Switching platforms means losing all of that accumulated context.
 
 3. **Reason before regenerating**  
-   Every other tool composites blindly. Klusta detects conflicts before they happen and prevents mismatches at generation time. Users get seamless results without understanding why.
+   Every other tool composites blindly. Kluxta detects conflicts before they happen and prevents mismatches at generation time. Users get seamless results without understanding why.
 
 4. **Asset Library lock-in**  
-   Users build their character roster, scene presets, and brand style guides on Klusta. Switching means losing their entire creative asset library. Genuine value-based lock-in.
+   Users build their character roster, scene presets, and brand style guides on Kluxta. Switching means losing their entire creative asset library. Genuine value-based lock-in.
 
 5. **Voice-first interface**  
    Gemini Live makes the experience feel like directing a crew, not fighting a prompt box. No competitor has a voice-native video production interface.
@@ -545,6 +545,6 @@ This is not an invented problem. The frustration of flat-video AI generation is 
 
 ## Footer
 
-**Klusta** — Built with Gemini 2.5 Pro · Gemini 2.0 Flash · Gemini Live API · Nano Banana Pro · Kling 3.0 (fal.ai) · SAM2 (Replicate) · ElevenLabs · FFmpeg · Next.js · Supabase · Google Cloud Run
+**Kluxta** — Built with Gemini 2.5 Pro · Gemini 2.0 Flash · Gemini Live API · Nano Banana Pro · Kling 3.0 (fal.ai) · SAM2 (Replicate) · ElevenLabs · FFmpeg · Next.js · Supabase · Google Cloud Run
 
 Submitted to: **Gemini Live Agent Challenge** — Deadline March 16, 2026

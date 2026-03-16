@@ -9,7 +9,7 @@ export default function Testimonial() {
 
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-blue-900 leading-tight mb-16 max-w-4xl">
           &ldquo; I used to spend 20 generations getting one consistent clip.
-          With Klusta&apos;s starting frame tags and Scene DNA, I get it in 2-3.
+          With Kluxta&apos;s starting frame tags and Scene DNA, I get it in 2-3.
           It just works. &rdquo;
         </h2>
 

@@ -1,6 +1,6 @@
-# Klusta Backend
+# Kluxta Backend
 
-Backend services for Klusta — an AI-powered video editor that solves AI video's biggest problem: **consistency**.
+Backend services for Kluxta — an AI-powered video editor that solves AI video's biggest problem: **consistency**.
 
 ## Architecture
 
@@ -25,7 +25,7 @@ The backend consists of two services:
 
 ## The Consistency Pipeline
 
-Klusta solves consistency via a multi-layered pipeline:
+Kluxta solves consistency via a multi-layered pipeline:
 
 1. **Starting frame tags** — User tags `@asset as the starting frame` → backend sends image as the literal first frame to fal.ai's image-to-video endpoint with model-specific parameter names (`start_image_url` for Kling, `image_url` for others)
 2. **Character reference tags** — User tags `@character` → backend sends image as appearance reference with explicit prompt instructions
@@ -122,8 +122,8 @@ uvicorn main:app --reload --port 8001
 npm run build
 
 # Build Docker images
-docker build -t klusta-api .
-docker build -t klusta-ffmpeg ./python
+docker build -t kluxta-api .
+docker build -t kluxta-ffmpeg ./python
 ```
 
 ## API Endpoints

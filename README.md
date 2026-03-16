@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="layerai/public/logo-with-name.png" alt="Klusta" width="280" />
+  <img src="layerai/public/logo-with-name.png" alt="Kluxta" width="280" />
 </p>
 
-<h1 align="center">Klusta — The Figma of AI Video</h1>
+<h1 align="center">Kluxta — The Figma of AI Video</h1>
 
 <p align="center">
   A context-intelligent, asset-aware video editor that solves AI video's biggest problem: <strong>consistency</strong>.<br/>
@@ -10,8 +10,8 @@
 </p>
 
 <p align="center">
-  <a href="https://klusta.com">Landing Page</a> &bull;
-  <a href="https://studio.klusta.com">Studio App</a> &bull;
+  <a href="https://kluxta.com">Landing Page</a> &bull;
+  <a href="https://studio.kluxta.com">Studio App</a> &bull;
   <a href="SUBMISSION.md">Submission Details</a>
 </p>
 
@@ -21,9 +21,9 @@
 
 Every AI video tool has the same problem: you prompt, a model generates a video, you want to change one thing, and the model regenerates **everything**. The character looks different. The lighting shifted. The mood changed. **Twenty generations for one good clip.**
 
-## How Klusta Solves It
+## How Kluxta Solves It
 
-Klusta attacks consistency from **three angles**:
+Kluxta attacks consistency from **three angles**:
 
 1. **Starting Frame & Character Reference Tags** — Tag assets with `@mentions` in the AI chat. Starting frames become the literal first frame of the video. Character references maintain appearance across shots. Three detection layers (Gemini intent analysis + regex safety net + fallback catch) ensure tags are never silently dropped.
 
@@ -38,7 +38,7 @@ Klusta attacks consistency from **three angles**:
 ```
 ├── layerai/                # Frontend — Next.js 16 + Remotion + Tailwind
 ├── layerai-backend/        # Backend  — Node.js (Express) + Python (FastAPI/FFmpeg)
-├── klusta-landing/         # Landing page — Next.js (klusta.com)
+├── kluxta-landing/         # Landing page — Next.js (kluxta.com)
 ├── SUBMISSION.md           # Gemini Live Agent Challenge submission
 ├── LICENSE                 # MIT License
 └── idea.md                 # Original project concept
@@ -46,10 +46,10 @@ Klusta attacks consistency from **three angles**:
 
 | Directory | What It Does | Runs On |
 |-----------|-------------|---------|
-| `layerai/` | Studio editor — timeline, AI chat panel, Remotion preview, asset library, export | `studio.klusta.com` (Vercel) |
+| `layerai/` | Studio editor — timeline, AI chat panel, Remotion preview, asset library, export | `studio.kluxta.com` (Vercel) |
 | `layerai-backend/src/` | Node.js API — Gemini intent detection, fal.ai video gen, Scene DNA, WebSocket | Railway |
 | `layerai-backend/python/` | Python FFmpeg service — compositing, transitions, text rendering, export | Railway |
-| `klusta-landing/` | Marketing landing page | `klusta.com` (Vercel) |
+| `kluxta-landing/` | Marketing landing page | `kluxta.com` (Vercel) |
 
 ---
 
@@ -105,7 +105,7 @@ cd ../layerai-backend && npm install
 cd python && pip install -r requirements.txt
 
 # Landing page
-cd ../../klusta-landing && npm install
+cd ../../kluxta-landing && npm install
 ```
 
 ### 2. Environment Variables
@@ -125,7 +125,7 @@ cd layerai-backend && npm run dev
 cd layerai-backend/python && uvicorn main:app --reload --port 8001
 
 # Terminal 4 — Landing page (port 3002)
-cd klusta-landing && npm run dev
+cd kluxta-landing && npm run dev
 ```
 
 ---
@@ -172,5 +172,5 @@ cd klusta-landing && npm run dev
 
 <p align="center">
   Built with Gemini 2.5 Flash, Google Cloud Video Intelligence, and a lot of FFmpeg flags.<br/>
-  <strong>Klusta</strong> — consistent AI video. Finally.
+  <strong>Kluxta</strong> — consistent AI video. Finally.
 </p>

@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="public/layerai-logo.svg" alt="Klusta" width="64" height="64" />
+  <img src="public/layerai-logo.svg" alt="Kluxta" width="64" height="64" />
 </p>
 
-<h1 align="center">Klusta</h1>
+<h1 align="center">Kluxta</h1>
 
 <p align="center">
   <strong>The Figma of AI Video</strong> — a context-intelligent, asset-aware video editor<br/>
@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="#the-problem">The Problem</a> &bull;
-  <a href="#how-klusta-solves-it">Our Solution</a> &bull;
+  <a href="#how-kluxta-solves-it">Our Solution</a> &bull;
   <a href="#features">Features</a> &bull;
   <a href="#architecture">Architecture</a> &bull;
   <a href="#getting-started">Getting Started</a> &bull;
@@ -28,9 +28,9 @@ Every AI video tool has the same problem: you prompt, a model generates a video,
 
 ---
 
-## How Klusta Solves It
+## How Kluxta Solves It
 
-Klusta attacks the consistency problem from **three angles**:
+Kluxta attacks the consistency problem from **three angles**:
 
 ### 1. Starting Frame & Character Reference Tags
 
@@ -347,5 +347,5 @@ This project is built for the **Gemini Live Agent Challenge** (deadline March 16
 
 <p align="center">
   Built with Gemini 2.5 Flash, Google Cloud Video Intelligence, and a lot of FFmpeg flags.<br/>
-  <strong>Klusta</strong> — consistent AI video. Finally.
+  <strong>Kluxta</strong> — consistent AI video. Finally.
 </p>

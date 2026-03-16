@@ -17,7 +17,7 @@ export default function Hero() {
       </div>
 
       <h1 className="text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 mb-6 leading-none">
-        KLUSTA
+        KLUXTA
       </h1>
 
       <p className="text-lg md:text-xl text-gray-400 max-w-2xl mb-12 font-medium">
@@ -27,7 +27,7 @@ export default function Hero() {
 
       <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-24 relative z-20">
         <a
-          href="https://studio.klusta.com"
+          href="https://studio.kluxta.com"
           className="bg-blue-500 text-white px-8 py-3.5 rounded-full font-semibold text-base hover:bg-blue-600 transition-colors w-full sm:w-auto text-center"
         >
           Start For Free

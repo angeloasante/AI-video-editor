@@ -15,7 +15,7 @@ export default function CTA() {
         </h2>
 
         <a
-          href="https://studio.klusta.com"
+          href="https://studio.kluxta.com"
           className="bg-blue-500 text-white px-8 py-3.5 rounded-full font-semibold text-base hover:bg-blue-600 transition-colors mb-16 relative z-10"
         >
           Start Creating For Free

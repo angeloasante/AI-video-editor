@@ -1,4 +1,4 @@
-# Klusta — Gemini Live Agent Challenge Submission
+# Kluxta — Gemini Live Agent Challenge Submission
 
 > **Category:** Creative Storyteller
 >
@@ -9,7 +9,7 @@
 ## Table of Contents
 
 - [The Problem](#the-problem)
-- [Our Mode — How Klusta Solves It](#our-mode--how-klusta-solves-it)
+- [Our Mode — How Kluxta Solves It](#our-mode--how-kluxta-solves-it)
 - [Features & Functionality](#features--functionality)
 - [Google Cloud & Gemini Integration](#google-cloud--gemini-integration)
 - [Architecture Diagram](#architecture-diagram)
@@ -43,13 +43,13 @@ You prompt. A model generates a video. You want to change one thing — a shirt 
 
 ---
 
-## Our Mode — How Klusta Solves It
+## Our Mode — How Kluxta Solves It
 
-Klusta attacks the consistency problem from **three angles**:
+Kluxta attacks the consistency problem from **three angles**:
 
 ### 1. Starting Frame & Character Reference Tags
 
-Users tag assets from their library using `@mentions` in the AI chat. Klusta distinguishes between two uses:
+Users tag assets from their library using `@mentions` in the AI chat. Kluxta distinguishes between two uses:
 
 **Starting Frame** — "using @my_screenshot as the starting frame, animate two men crying"
 - The tagged image becomes the **literal first frame** of the generated video
@@ -69,7 +69,7 @@ This is detected via:
 
 ### 2. Gemini Prompt Enhancement with Scene DNA
 
-Raw user prompts are short and vague. Klusta uses Gemini 2.5 Flash to enhance them into production-ready descriptions — but **without destroying the user's intent**.
+Raw user prompts are short and vague. Kluxta uses Gemini 2.5 Flash to enhance them into production-ready descriptions — but **without destroying the user's intent**.
 
 ```
 User types:   "a man walking through rain at night"
@@ -297,12 +297,12 @@ The backend uses `@google/generative-ai` (Google GenAI SDK) for all Gemini inter
 ### The Consistency Problem — Solved
 
 ```
-BEFORE Klusta:
+BEFORE Kluxta:
   You: "a man walking in rain"        → Model generates a random man
   You: "same man, now in a coffee shop" → Completely different man
   You: "no, the SAME man"              → Still different. 20 tries later, give up.
 
-WITH Klusta:
+WITH Kluxta:
   You: "create a character named Marcus — Nigerian man, 30s, red tracksuit"
        → Gemini generates photorealistic reference → saved to Asset Library
 
@@ -460,7 +460,7 @@ Scene DNA is the core innovation that enables consistency. It's a structured JSO
 
 **[3:15–3:30] — Closing**
 - Architecture diagram
-- "Klusta uses Gemini 2.5 Flash for thinking, Google Cloud Video Intelligence for deep analysis, starting frame and character reference tags for visual anchoring, and Scene DNA to maintain consistency across every shot."
+- "Kluxta uses Gemini 2.5 Flash for thinking, Google Cloud Video Intelligence for deep analysis, starting frame and character reference tags for visual anchoring, and Scene DNA to maintain consistency across every shot."
 - "Consistent AI video. Finally."
 
 ---
@@ -588,9 +588,9 @@ gcloud run deploy layerai-ffmpeg --image gcr.io/YOUR_PROJECT/layerai-ffmpeg --re
 
 ## DevPost Fields Quick-Fill
 
-**Project Title:** Klusta — The Figma of AI Video
+**Project Title:** Kluxta — The Figma of AI Video
 
-**Short Description:** Klusta solves AI video's biggest problem — consistency. Using Gemini 2.5 Flash for intelligent prompt enhancement, starting frame and character reference tags for visual anchoring, Google Cloud Video Intelligence for deep scene analysis, and Scene DNA for persistent project context, every new generation matches the ones before it.
+**Short Description:** Kluxta solves AI video's biggest problem — consistency. Using Gemini 2.5 Flash for intelligent prompt enhancement, starting frame and character reference tags for visual anchoring, Google Cloud Video Intelligence for deep scene analysis, and Scene DNA for persistent project context, every new generation matches the ones before it.
 
 **Category:** Creative Storyteller
 
@@ -606,5 +606,5 @@ gcloud run deploy layerai-ffmpeg --image gcr.io/YOUR_PROJECT/layerai-ffmpeg --re
 
 <p align="center">
   Built with Gemini 2.5 Flash, Google Cloud Video Intelligence, and a lot of FFmpeg flags.<br/>
-  <strong>Klusta</strong> — consistent AI video. Finally.
+  <strong>Kluxta</strong> — consistent AI video. Finally.
 </p>

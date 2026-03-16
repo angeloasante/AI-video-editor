@@ -157,7 +157,7 @@ export default function Footer() {
           </span>
           <div className="flex items-center justify-between w-full group cursor-pointer">
             <a
-              href="https://studio.klusta.com"
+              href="https://studio.kluxta.com"
               className="text-6xl md:text-8xl lg:text-[10rem] font-semibold tracking-tighter text-gray-600 transition-colors duration-500 group-hover:text-white leading-none"
             >
               GET STARTED
@@ -170,9 +170,9 @@ export default function Footer() {
 
         <div className="flex items-center justify-between mt-16 pt-8 border-t border-white/5">
           <div className="flex items-center space-x-2">
-            <Image src="/logo.png" alt="Klusta" width={20} height={20} />
+            <Image src="/logo.png" alt="Kluxta" width={20} height={20} />
             <span className="text-sm text-gray-500 font-medium">
-              Klusta &copy; {new Date().getFullYear()}
+              Kluxta &copy; {new Date().getFullYear()}
             </span>
           </div>
           <p className="text-xs text-gray-600">
