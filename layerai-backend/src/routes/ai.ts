@@ -404,9 +404,10 @@ Return ONLY the JSON object.`;
     console.log(`[ai/chat] Intent: ${intentResult.intent}, needsReferenceImage: ${intentResult.needsReferenceImage}, referenceImagePrompt: ${intentResult.referenceImagePrompt ? "present" : "NONE"}`);
 
     // Fallback: if needsReferenceImage=true but no referenceImagePrompt, auto-generate one
+    // IMPORTANT: Use the original user message, NOT the enhanced prompt (which may be contaminated by Scene DNA)
     if (intentResult.needsReferenceImage && !intentResult.referenceImagePrompt) {
-      console.warn("[ai/chat] needsReferenceImage=true but referenceImagePrompt missing. Auto-generating from enhanced prompt.");
-      intentResult.referenceImagePrompt = `A detailed still frame of the subject from: ${(intentResult.enhancedPrompt || body.message).slice(0, 500)}. Photorealistic, clear lighting, detailed appearance, static pose.`;
+      console.warn("[ai/chat] needsReferenceImage=true but referenceImagePrompt missing. Auto-generating from user message.");
+      intentResult.referenceImagePrompt = `A detailed still frame of the subject from: ${body.message.slice(0, 500)}. Photorealistic, clear lighting, detailed appearance, static pose.`;
     }
 
     // Safety net: if generating video with human subjects but Gemini didn't flag it
@@ -418,7 +419,7 @@ Return ONLY the JSON object.`;
         console.warn(`[ai/chat] Human subject detected in "${body.message.slice(0, 60)}" but needsReferenceImage=false. Forcing to true.`);
         intentResult.needsReferenceImage = true;
         if (!intentResult.referenceImagePrompt) {
-          intentResult.referenceImagePrompt = `A photorealistic still frame of the subject described: ${(intentResult.enhancedPrompt || body.message).slice(0, 500)}. Clear lighting, detailed appearance.`;
+          intentResult.referenceImagePrompt = `A photorealistic still frame of the subject described: ${body.message.slice(0, 500)}. Clear lighting, detailed appearance.`;
         }
       }
     }
@@ -433,10 +434,19 @@ Return ONLY the JSON object.`;
       }
 
       if (sceneDna) {
+        // For generate_image (environment/reference images), only pass style/mood/lighting
+        // from Scene DNA — NOT characters, objects, or scene labels, since the user is
+        // intentionally creating a NEW visual reference that may differ from existing content.
+        const isImageGen = intentResult.intent === "generate_image";
         try {
           const furtherEnhanced = await gemini.enhancePrompt({
             prompt: intentResult.enhancedPrompt,
-            sceneDna: {
+            sceneDna: isImageGen ? {
+              // Only atmospheric context for image generation — no subjects
+              mood: sceneDna.mood,
+              colorPalette: sceneDna.colorPalette,
+              lighting: sceneDna.lighting,
+            } : {
               theme: sceneDna.theme,
               mood: sceneDna.mood,
               colorPalette: sceneDna.colorPalette,

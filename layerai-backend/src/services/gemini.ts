@@ -194,10 +194,11 @@ Return a JSON object with the following structure:
     const systemPrompt = `You are an expert prompt engineer for AI video generation. Enhance the user's prompt to be more detailed and effective for video AI models.
 ${dnaContext}
 Guidelines:
-- Incorporate Scene DNA details (detected objects, scene labels, lighting, characters, colors) into the enhanced prompt naturally
-- Add specific visual details (lighting, colors, camera angles)
-- Include motion descriptions
-- Maintain the original intent
+- CRITICAL: The user's subject matter, scene, and setting are SACRED — NEVER replace, substitute, or override them with Scene DNA content. If the user says "a train crossing a viaduct", the output MUST be about a train crossing a viaduct, NOT about characters or scenes from Scene DNA.
+- Scene DNA should ONLY influence style, mood, color grading, lighting quality, and cinematic tone — NEVER the actual subjects, locations, or actions described in the prompt.
+- Add specific visual details (lighting, colors, camera angles) that complement the user's described scene
+- Include motion descriptions relevant to what the user described
+- Maintain the original intent — the user's words define WHAT is in the scene
 - Keep it under 800 characters
 - Do not add text/title overlays unless requested
 - CRITICAL: If the original prompt starts with "THE ATTACHED IMAGE IS" or similar VM instructions, preserve those instructions EXACTLY at the start and only enhance the scene description that follows
