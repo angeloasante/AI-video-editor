@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { EditorHeader } from "@/components/layout/EditorHeader";
@@ -34,6 +34,14 @@ const DEFAULT_DURATIONS: Record<string, number> = {
 };
 
 export default function StudioPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen bg-black text-zinc-500">Loading studio...</div>}>
+      <StudioContent />
+    </Suspense>
+  );
+}
+
+function StudioContent() {
   const { user, loading: authLoading, signOut } = useAuth();
   const isMobile = useIsMobile();
   const searchParams = useSearchParams();
