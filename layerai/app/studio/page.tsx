@@ -35,7 +35,13 @@ const DEFAULT_DURATIONS: Record<string, number> = {
 
 export default function StudioPage() {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center min-h-screen bg-black text-zinc-500">Loading studio...</div>}>
+    <Suspense fallback={
+      <div className="h-screen w-full flex flex-col items-center justify-center bg-[#0a0a0b] relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-b from-blue-500/10 to-transparent blur-[100px] pointer-events-none" />
+        <img src="/logo.png" alt="Klusta" className="w-10 h-10 mb-4 animate-pulse" />
+        <div className="text-neutral-400 text-sm font-medium">Loading studio...</div>
+      </div>
+    }>
       <StudioContent />
     </Suspense>
   );
@@ -828,16 +834,17 @@ function StudioContent() {
   // Wait for auth to load before rendering — prevents uploads/queries with undefined userId
   if (authLoading) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-black">
-        <div className="text-neutral-500 text-sm">Loading...</div>
+      <div className="h-screen w-full flex flex-col items-center justify-center bg-[#0a0a0b] relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-b from-blue-500/10 to-transparent blur-[100px] pointer-events-none" />
+        <img src="/logo.png" alt="Klusta" className="w-10 h-10 mb-4 animate-pulse" />
+        <div className="text-neutral-400 text-sm font-medium">Loading studio...</div>
       </div>
     );
   }
 
   return (
-    <div className="h-[100dvh] w-full flex flex-col overflow-hidden bg-black selection:bg-neutral-800">
-      <div className="px-2 pt-2">
-        <EditorHeader
+    <div className="h-[100dvh] w-full flex flex-col overflow-hidden bg-[#0a0a0b] selection:bg-blue-500/20">
+      <EditorHeader
           projectName={projectName}
           userEmail={user?.email}
           hasSceneDNA={!!sceneDNA}
@@ -849,7 +856,6 @@ function StudioContent() {
           onExport={() => setExportDialogOpen(true)}
           onSignOut={signOut}
         />
-      </div>
 
       {/* ── Desktop layout ── */}
       {!isMobile && (

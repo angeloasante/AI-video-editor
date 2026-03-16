@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   ArrowLeft,
   Pen,
@@ -43,16 +44,30 @@ export function EditorHeader({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="h-12 flex-none flex items-center justify-between px-4 z-10 shrink-0 safe-area-top">
-      {/* Left: Title & Navigation */}
+    <header className="h-14 flex-none flex items-center justify-between px-4 z-10 shrink-0 safe-area-top border-b border-white/[0.06] bg-[#0c0c0e]/80 backdrop-blur-md">
+      {/* Left: Logo, Title & Navigation */}
       <div className="flex items-center gap-3">
+        {/* Logo */}
         <button
           onClick={() => router.push("/projects")}
-          className="w-8 h-8 flex items-center justify-center text-neutral-500 hover:text-white transition-colors rounded-lg hover:bg-neutral-800"
+          className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity"
+        >
+          <Image src="/logo.png" alt="Klusta" width={24} height={24} />
+          <span className="font-semibold text-sm tracking-tight text-blue-400 hidden lg:inline">
+            Klusta
+          </span>
+        </button>
+
+        <div className="h-5 w-px bg-white/10 hidden md:block" />
+
+        <button
+          onClick={() => router.push("/projects")}
+          className="w-7 h-7 flex items-center justify-center text-neutral-500 hover:text-white transition-colors rounded-lg hover:bg-white/5"
         >
           <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
         </button>
-        <div className="flex items-center gap-2 px-2 py-1 hover:bg-neutral-800 rounded-md cursor-pointer transition-colors group">
+
+        <div className="flex items-center gap-2 px-2 py-1 hover:bg-white/5 rounded-lg cursor-pointer transition-colors group">
           <span className="text-[14px] font-medium text-white tracking-tight md:max-w-none max-w-[120px] truncate">
             {projectName}
           </span>
@@ -62,14 +77,14 @@ export function EditorHeader({
           />
         </div>
 
-        {/* Scene DNA button — hidden on mobile */}
+        {/* Scene DNA button */}
         <button
           onClick={onOpenSceneDNA}
           title="View Scene DNA"
-          className={`h-7 px-2.5 hidden md:flex items-center gap-1.5 rounded-md text-[11px] font-medium transition-colors border ${
+          className={`h-7 px-2.5 hidden md:flex items-center gap-1.5 rounded-full text-[11px] font-medium transition-all ${
             hasSceneDNA
-              ? "bg-purple-500/10 border-purple-500/30 text-purple-400 hover:bg-purple-500/20"
-              : "bg-neutral-800/50 border-neutral-700 text-neutral-400 hover:text-purple-400 hover:border-purple-500/30"
+              ? "bg-blue-500/10 border border-blue-500/30 text-blue-400 hover:bg-blue-500/20 shadow-[0_0_12px_rgba(59,130,246,0.15)]"
+              : "bg-white/5 border border-white/10 text-neutral-400 hover:text-blue-400 hover:border-blue-500/30"
           }`}
         >
           <Layers className="w-3.5 h-3.5" />
@@ -78,19 +93,19 @@ export function EditorHeader({
       </div>
 
       {/* Right: Actions & Status */}
-      <div className="flex items-center gap-2 md:gap-4">
-        {/* Saved status — hidden on mobile */}
+      <div className="flex items-center gap-2 md:gap-3">
+        {/* Saved status */}
         <div className="hidden md:flex items-center gap-1.5 text-sm text-neutral-500">
-          <Cloud className="w-4 h-4" strokeWidth={1.5} />
+          <Cloud className="w-3.5 h-3.5" strokeWidth={1.5} />
           <span className="font-normal text-xs">Saved {lastSaved}</span>
         </div>
 
-        <div className="h-4 w-px bg-neutral-800 hidden md:block" />
+        <div className="h-4 w-px bg-white/10 hidden md:block" />
 
-        {/* User — hidden on mobile */}
+        {/* User avatar */}
         {userEmail && (
           <div className="hidden md:flex items-center gap-2">
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-[11px] font-bold text-black uppercase">
+            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-[11px] font-bold text-white uppercase ring-2 ring-blue-500/20">
               {userEmail[0]}
             </div>
             <span className="text-xs text-neutral-500 hidden xl:inline max-w-[120px] truncate">
@@ -99,7 +114,7 @@ export function EditorHeader({
             <button
               onClick={onSignOut}
               title="Sign out"
-              className="w-7 h-7 flex items-center justify-center text-neutral-600 hover:text-red-400 transition-colors rounded-lg hover:bg-neutral-800"
+              className="w-7 h-7 flex items-center justify-center text-neutral-600 hover:text-red-400 transition-colors rounded-lg hover:bg-white/5"
             >
               <LogOut className="w-3.5 h-3.5" strokeWidth={1.5} />
             </button>
@@ -108,66 +123,64 @@ export function EditorHeader({
 
         <button
           onClick={onTogglePanel}
-          className="w-8 h-8 hidden md:flex items-center justify-center text-neutral-500 hover:text-white transition-colors rounded-lg hover:bg-neutral-800"
+          className="w-8 h-8 hidden md:flex items-center justify-center text-neutral-500 hover:text-white transition-colors rounded-lg hover:bg-white/5"
         >
           <LayoutPanelLeft className="w-5 h-5" strokeWidth={1.5} />
         </button>
 
         <button
           onClick={onShare}
-          className="h-8 px-3 bg-neutral-800 border border-neutral-700 hover:bg-neutral-700 text-neutral-300 text-sm font-medium rounded-lg transition-colors hidden md:flex items-center gap-2"
+          className="h-8 px-3 bg-white/5 border border-white/10 hover:bg-white/10 text-neutral-300 text-sm font-medium rounded-lg transition-colors hidden md:flex items-center gap-2"
         >
           <Share2 className="w-4 h-4" strokeWidth={1.5} />
           Share
         </button>
 
-        {/* Desktop: Export button */}
+        {/* Export button — brand blue */}
         <button
           onClick={onExport}
-          className="h-8 px-4 bg-white hover:bg-neutral-200 text-black text-sm font-medium rounded-lg transition-colors hidden md:flex items-center gap-2"
+          className="h-8 px-4 bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold rounded-lg transition-colors hidden md:flex items-center gap-2 shadow-[0_0_20px_rgba(59,130,246,0.3)]"
         >
           <ArrowUpToLine className="w-4 h-4" strokeWidth={1.5} />
           Export
         </button>
 
-        {/* Mobile: dropdown menu with all actions */}
+        {/* Mobile menu */}
         <div className="relative md:hidden">
           <button
             onClick={() => setMobileMenuOpen((v) => !v)}
-            className="w-8 h-8 flex items-center justify-center text-neutral-400 hover:text-white transition-colors rounded-lg hover:bg-neutral-800"
+            className="w-8 h-8 flex items-center justify-center text-neutral-400 hover:text-white transition-colors rounded-lg hover:bg-white/5"
           >
             <MoreVertical className="w-5 h-5" strokeWidth={1.5} />
           </button>
 
           {mobileMenuOpen && (
             <>
-              {/* Backdrop to close menu */}
               <div className="fixed inset-0 z-40" onClick={() => setMobileMenuOpen(false)} />
-
-              <div className="absolute right-0 top-full mt-1 w-52 bg-[#141416] border border-neutral-800 rounded-lg shadow-xl z-50 py-1">
+              <div className="absolute right-0 top-full mt-1 w-52 bg-[#141416] border border-white/10 rounded-xl shadow-2xl z-50 py-1 backdrop-blur-xl">
                 <button
                   onClick={() => { onOpenSceneDNA?.(); setMobileMenuOpen(false); }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-neutral-300 hover:bg-neutral-800"
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-neutral-300 hover:bg-white/5"
                 >
-                  <Layers className="w-4 h-4 text-purple-400" />
+                  <Layers className="w-4 h-4 text-blue-400" />
                   Scene DNA
                 </button>
                 <button
                   onClick={() => { onShare?.(); setMobileMenuOpen(false); }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-neutral-300 hover:bg-neutral-800"
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-neutral-300 hover:bg-white/5"
                 >
                   <Share2 className="w-4 h-4 text-neutral-500" />
                   Share
                 </button>
                 <button
                   onClick={() => { onExport?.(); setMobileMenuOpen(false); }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-neutral-300 hover:bg-neutral-800"
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-neutral-300 hover:bg-white/5"
                 >
                   <ArrowUpToLine className="w-4 h-4 text-neutral-500" />
                   Export
                 </button>
 
-                <div className="h-px bg-neutral-800 my-1" />
+                <div className="h-px bg-white/5 my-1" />
 
                 <div className="flex items-center gap-2.5 px-3 py-2 text-xs text-neutral-500">
                   <Cloud className="w-4 h-4" />
@@ -176,16 +189,16 @@ export function EditorHeader({
 
                 {userEmail && (
                   <>
-                    <div className="h-px bg-neutral-800 my-1" />
+                    <div className="h-px bg-white/5 my-1" />
                     <div className="flex items-center gap-2.5 px-3 py-2">
-                      <div className="w-5 h-5 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-[8px] font-bold text-black uppercase">
+                      <div className="w-5 h-5 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-[8px] font-bold text-white uppercase">
                         {userEmail[0]}
                       </div>
                       <span className="text-xs text-neutral-400 truncate flex-1">{userEmail}</span>
                     </div>
                     <button
                       onClick={() => { onSignOut?.(); setMobileMenuOpen(false); }}
-                      className="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-red-400 hover:bg-neutral-800"
+                      className="w-full flex items-center gap-2.5 px-3 py-2.5 text-xs text-red-400 hover:bg-white/5"
                     >
                       <LogOut className="w-4 h-4" />
                       Sign Out
