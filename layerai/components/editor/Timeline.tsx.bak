@@ -1,0 +1,470 @@
+"use client";
+
+import { useRef, useState, useEffect, useCallback } from "react";
+import {
+  Timeline as TimelineEditor,
+  TimelineState,
+} from "@xzdarcy/react-timeline-editor";
+import {
+  TimelineEffect,
+  TimelineRow,
+  TimelineAction,
+} from "@xzdarcy/timeline-engine";
+import {
+  PanelsLeftBottom,
+  ListVideo,
+  SkipBack,
+  Play,
+  Pause,
+  SkipForward,
+  Minus,
+  Plus,
+  PictureInPicture,
+  Scissors,
+} from "lucide-react";
+import { IconButton } from "@/components/shared/IconButton";
+import { Slider } from "@/components/ui/slider";
+import { cn } from "@/lib/utils";
+import { MediaFile } from "@/lib/supabase";
+
+// Re-export MediaFile for convenience
+export type { MediaFile };
+
+// Clip represents a segment of media in the timeline
+export interface TimelineClip {
+  id: string;
+  startTime: number;
+  endTime: number;
+  trackIndex: number;
+}
+
+interface TimelineProps {
+  currentTime: number;
+  duration: number;
+  isPlaying: boolean;
+  playbackSpeed: number;
+  zoom: number;
+  timelineHeight: number;
+  mediaFile?: MediaFile | null;
+  onPlay: () => void;
+  onPause: () => void;
+  onSeek: (time: number) => void;
+  onSkipBack: () => void;
+  onSkipForward: () => void;
+  onZoomChange: (zoom: number) => void;
+  onHeightChange: (height: number) => void;
+  onTogglePanel?: () => void;
+  onClipsChange?: (clips: TimelineClip[]) => void;
+}
+
+function formatTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  const ms = Math.floor((seconds % 1) * 10);
+  if (mins > 0) {
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  }
+  return `${secs}.${ms}s`;
+}
+
+// Effect definitions for different media types
+const effects: Record<string, TimelineEffect> = {
+  video: {
+    id: "video",
+    name: "Video",
+  },
+  audio: {
+    id: "audio",
+    name: "Audio",
+  },
+  image: {
+    id: "image",
+    name: "Image",
+  },
+};
+
+// Custom action renderer - must use inline styles (Tailwind doesn't work inside library)
+const CustomRender: React.FC<{ action: TimelineAction; row: TimelineRow }> = ({
+  action,
+  row,
+}) => {
+  const effectId = action.effectId;
+  const bgColors: Record<string, string> = {
+    video: "rgba(30, 58, 138, 0.9)",
+    audio: "rgba(88, 28, 135, 0.9)",
+    image: "rgba(20, 83, 45, 0.9)",
+  };
+  const borderColors: Record<string, string> = {
+    video: "#3b82f6",
+    audio: "#a855f7",
+    image: "#22c55e",
+  };
+
+  return (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        borderRadius: "4px",
+        border: `2px solid ${borderColors[effectId || "video"] || "#525252"}`,
+        display: "flex",
+        alignItems: "center",
+        paddingLeft: "8px",
+        paddingRight: "8px",
+        overflow: "hidden",
+        backgroundColor: bgColors[effectId || "video"] || "#262626",
+        boxSizing: "border-box",
+      }}
+    >
+      <span style={{ fontSize: "11px", color: "#fff", opacity: 0.9, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+        {(action as any).name || `Clip ${action.id}`}
+      </span>
+    </div>
+  );
+};
+
+export function Timeline({
+  currentTime,
+  duration,
+  isPlaying,
+  playbackSpeed,
+  zoom,
+  timelineHeight,
+  mediaFile,
+  onPlay,
+  onPause,
+  onSeek,
+  onSkipBack,
+  onSkipForward,
+  onZoomChange,
+  onHeightChange,
+  onTogglePanel,
+  onClipsChange,
+}: TimelineProps) {
+  const [isDraggingResize, setIsDraggingResize] = useState(false);
+  const [editorData, setEditorData] = useState<TimelineRow[]>([]);
+  const [selectedActionId, setSelectedActionId] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+  const timelineRef = useRef<TimelineState>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Fix hydration - only render timeline editor on client
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Scale factor: zoom 100 = scale 1, zoom 200 = scale 2
+  const scale = zoom / 100;
+  const scaleWidth = 160; // pixels per second at scale 1
+
+  // Initialize timeline data when media file changes
+  useEffect(() => {
+    console.log("Timeline: mediaFile changed", mediaFile, "duration:", duration);
+    if (mediaFile && duration > 0) {
+      const effectId = mediaFile.type || "video";
+      const initialData: TimelineRow[] = [
+        {
+          id: "track-0",
+          actions: [
+            {
+              id: "action-1",
+              start: 0,
+              end: duration,
+              effectId,
+              // Custom data
+              name: mediaFile.name,
+            } as TimelineAction & { name: string },
+          ],
+        },
+        { id: "track-1", actions: [] },
+        { id: "track-2", actions: [] },
+        { id: "track-3", actions: [] },
+      ];
+      setEditorData(initialData);
+      setSelectedActionId("action-1");
+    } else if (!mediaFile) {
+      setEditorData([
+        { id: "track-0", actions: [] },
+        { id: "track-1", actions: [] },
+        { id: "track-2", actions: [] },
+        { id: "track-3", actions: [] },
+      ]);
+      setSelectedActionId(null);
+    }
+  }, [mediaFile, duration]);
+
+  // Sync current time with timeline
+  useEffect(() => {
+    if (timelineRef.current) {
+      timelineRef.current.setTime(currentTime);
+    }
+  }, [currentTime]);
+
+  // Play/pause sync
+  useEffect(() => {
+    if (!timelineRef.current) return;
+    if (isPlaying) {
+      timelineRef.current.play({ autoEnd: true });
+    } else {
+      timelineRef.current.pause();
+    }
+  }, [isPlaying]);
+
+  // Notify parent of clip changes
+  useEffect(() => {
+    if (!onClipsChange) return;
+    const clips: TimelineClip[] = [];
+    editorData.forEach((row, trackIndex) => {
+      row.actions.forEach((action) => {
+        clips.push({
+          id: action.id,
+          startTime: action.start,
+          endTime: action.end,
+          trackIndex,
+        });
+      });
+    });
+    onClipsChange(clips);
+  }, [editorData, onClipsChange]);
+
+  // Handle timeline panel resize drag
+  const handleResizeMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDraggingResize(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isDraggingResize) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const windowHeight = window.innerHeight;
+      const newHeight = windowHeight - e.clientY;
+      const clampedHeight = Math.max(150, Math.min(500, newHeight));
+      onHeightChange(clampedHeight);
+    };
+
+    const handleMouseUp = () => {
+      setIsDraggingResize(false);
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDraggingResize, onHeightChange]);
+
+  // Split selected action at current time
+  const handleSplit = useCallback(() => {
+    if (!selectedActionId) return;
+
+    setEditorData((prev) => {
+      const newData = prev.map((row) => {
+        const actionIndex = row.actions.findIndex(
+          (a) => a.id === selectedActionId
+        );
+        if (actionIndex === -1) return row;
+
+        const action = row.actions[actionIndex];
+        if (currentTime <= action.start || currentTime >= action.end) return row;
+
+        const gap = 0.05; // 50ms gap
+        const newActions = [...row.actions];
+        newActions.splice(actionIndex, 1);
+
+        // First part
+        newActions.push({
+          ...action,
+          id: `${action.id}-split-1-${Date.now()}`,
+          end: currentTime - gap,
+        });
+
+        // Second part
+        const newActionId = `${action.id}-split-2-${Date.now()}`;
+        newActions.push({
+          ...action,
+          id: newActionId,
+          start: currentTime + gap,
+        });
+
+        setSelectedActionId(newActionId);
+        return { ...row, actions: newActions };
+      });
+      return newData;
+    });
+  }, [selectedActionId, currentTime]);
+
+  // Check if split is possible
+  const canSplit =
+    selectedActionId &&
+    editorData.some((row) =>
+      row.actions.some(
+        (a) =>
+          a.id === selectedActionId &&
+          currentTime > a.start &&
+          currentTime < a.end
+      )
+    );
+
+  // Handle timeline time change
+  const handleTimeChange = useCallback(
+    (time: number) => {
+      onSeek(time);
+    },
+    [onSeek]
+  );
+
+  // Handle data change from timeline editor
+  const handleDataChange = useCallback((data: TimelineRow[]) => {
+    setEditorData(data);
+  }, []);
+
+  // Handle action click
+  const handleClickAction = useCallback(
+    (e: React.MouseEvent, { action }: { action: TimelineAction; row: TimelineRow }) => {
+      setSelectedActionId(action.id);
+    },
+    []
+  );
+
+  return (
+    <footer
+      ref={containerRef}
+      className={cn(
+        "flex-none bg-[#0d0d0f] flex flex-col z-20 transition-all",
+        isDraggingResize ? "select-none" : ""
+      )}
+      style={{ height: `${timelineHeight}px` }}
+    >
+      {/* Resize Handle */}
+      <div
+        onMouseDown={handleResizeMouseDown}
+        className={cn(
+          "h-2 w-full cursor-ns-resize flex items-center justify-center group border-t border-neutral-800 hover:border-neutral-600 transition-colors",
+          isDraggingResize && "border-blue-500"
+        )}
+      >
+        <div
+          className={cn(
+            "w-12 h-1 rounded-full bg-neutral-700 group-hover:bg-neutral-500 transition-colors",
+            isDraggingResize && "bg-blue-500"
+          )}
+        />
+      </div>
+
+      {/* Timeline Toolbar */}
+      <div className="h-12 flex-none flex items-center justify-between px-4 border-b border-neutral-800/80 bg-[#0a0a0a]">
+        {/* Left */}
+        <div className="w-[200px] flex items-center gap-2">
+          <IconButton
+            icon={PanelsLeftBottom}
+            onClick={onTogglePanel}
+            tooltip="Toggle Panel"
+          />
+          <IconButton
+            icon={Scissors}
+            onClick={handleSplit}
+            tooltip={canSplit ? "Split selected clip" : "Select a clip first"}
+            disabled={!canSplit}
+          />
+          {selectedActionId && (
+            <span className="text-[10px] text-blue-400 ml-2">Clip selected</span>
+          )}
+        </div>
+
+        {/* Center Controls */}
+        <div className="flex items-center justify-center gap-6">
+          <IconButton icon={ListVideo} size="sm" tooltip="Clips" />
+          <div className="text-sm font-medium text-neutral-300 w-8 text-center">
+            {playbackSpeed}x
+          </div>
+          <div className="flex items-center gap-4">
+            <IconButton icon={SkipBack} onClick={onSkipBack} tooltip="Skip Back" />
+            <button
+              onClick={isPlaying ? onPause : onPlay}
+              className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black hover:scale-105 transition-transform shadow-sm"
+            >
+              {isPlaying ? (
+                <Pause className="w-4 h-4 fill-black" strokeWidth={1.5} />
+              ) : (
+                <Play className="w-4 h-4 ml-0.5 fill-black" strokeWidth={1.5} />
+              )}
+            </button>
+            <IconButton
+              icon={SkipForward}
+              onClick={onSkipForward}
+              disabled={currentTime >= duration}
+              tooltip="Skip Forward"
+            />
+          </div>
+          <div className="text-xs font-normal text-neutral-400 w-28 text-center tracking-wide">
+            {formatTime(currentTime)}{" "}
+            <span className="text-neutral-600 mx-1">/</span>{" "}
+            {formatTime(duration)}
+          </div>
+        </div>
+
+        {/* Right Zoom */}
+        <div className="w-[200px] flex items-center justify-end gap-3">
+          <Minus className="w-3 h-3 text-neutral-500" strokeWidth={2} />
+          <Slider
+            value={[zoom]}
+            min={50}
+            max={300}
+            step={10}
+            onValueChange={(values) => onZoomChange(values[0])}
+            className="w-24"
+          />
+          <Plus className="w-3 h-3 text-neutral-400" strokeWidth={2} />
+          <span className="text-[10px] text-neutral-500 w-10">{zoom}%</span>
+          <div className="w-px h-4 bg-neutral-800 mx-1" />
+          <IconButton
+            icon={PictureInPicture}
+            size="sm"
+            tooltip="Picture in Picture"
+          />
+        </div>
+      </div>
+
+      {/* Timeline Editor */}
+      {/* Debug log */}
+      {console.log("Timeline render: editorData=", JSON.stringify(editorData), "scale=", scale, "height=", timelineHeight - 56)}
+      <div 
+        className="flex-1 overflow-hidden bg-[#0a0a0a]"
+        style={{ minHeight: `${Math.max(timelineHeight - 56, 100)}px` }}
+      >
+        {isMounted ? (
+          <TimelineEditor
+            ref={timelineRef}
+            editorData={editorData}
+            effects={effects}
+            onChange={handleDataChange}
+            onCursorDragEnd={handleTimeChange}
+            onClickAction={handleClickAction}
+            scale={scale}
+            scaleWidth={scaleWidth}
+            rowHeight={48}
+            startLeft={60}
+            autoScroll={true}
+            hideCursor={false}
+            dragLine={true}
+            getActionRender={(action, row) => (
+              <CustomRender action={action} row={row} />
+            )}
+            style={{
+              width: "100%",
+              height: `${Math.max(timelineHeight - 56, 100)}px`,
+              backgroundColor: "#0a0a0a",
+            }}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-neutral-600 text-xs">
+            Loading timeline...
+          </div>
+        )}
+      </div>
+    </footer>
+  );
+}
