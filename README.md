@@ -133,11 +133,11 @@ cd kluxta-landing && npm run dev
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                  Frontend (Next.js 16)                   │
-│  Remotion Preview │ Timeline Editor │ AI Chat + @Tags    │
-│  Asset Library    │ Export Dialog   │ Scene DNA Panel     │
-└────────┬──────────────────┬──────────────────┬──────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                    Frontend (Next.js 16)                      │
+│  Remotion Preview │ Timeline Editor │ AI Chat + @Mention Tags │
+│  Asset Library    │ Export Dialog   │ Scene DNA Panel          │
+└────────┬──────────────────┬──────────────────┬───────────────┘
          │                  │                  │
          ▼                  ▼                  ▼
    ┌──────────┐      ┌──────────────┐   ┌──────────┐
@@ -145,21 +145,25 @@ cd kluxta-landing && npm run dev
    │Auth + DB │      │  (Express)   │   │(Real-time│
    │+ Storage │      └──────┬───────┘   │ updates) │
    └──────────┘             │           └──────────┘
-                            │
-              ┌─────────────┼─────────────┐
-              ▼             ▼             ▼
-     ┌────────────┐  ┌───────────┐  ┌──────────┐
-     │   Python   │  │  Gemini   │  │ fal.ai   │
-     │  FFmpeg    │  │  2.5 Flash│  │(12 video │
-     │  (FastAPI) │  │  (GenAI)  │  │ models)  │
-     └────────────┘  └─────┬─────┘  └──────────┘
-                           │
-              ┌────────────┼────────────┐
-              ▼            ▼            ▼
-     ┌────────────┐ ┌───────────┐ ┌──────────┐
-     │  GCP Video │ │ ElevenLabs│ │ Replicate│
-     │Intelligence│ │(TTS/SFX)  │ │  (SAM2)  │
-     └────────────┘ └───────────┘ └──────────┘
+                  ┌─────────┼──────────┐
+                  ▼         ▼          ▼
+          ┌────────────┐ ┌──────────────────────────┐
+          │   Python   │ │  Gemini 2.5 Flash (GenAI)│
+          │  FFmpeg    │ │      — AI Brain —        │
+          │  (FastAPI) │ └────────────┬─────────────┘
+          └────────────┘              │
+                      ┌───────┬──────┼───────┐
+                      ▼       ▼      ▼       ▼
+               ┌────────┐┌──────┐┌──────┐┌──────────┐
+               │GCP Vid.││fal.ai││Repli-││ElevenLabs│
+               │Intelli-││Kling ││cate  ││(TTS/SFX/ │
+               │gence   ││3.0   ││(SAM2)││ Scribe)  │
+               └────────┘└──────┘└──────┘└──────────┘
+
+        ┌────────────────────────────────────────┐
+        │       Nano Banana Pro (fal.ai)         │
+        │  Reference Image Generation (direct)   │
+        └────────────────────────────────────────┘
 ```
 
 ---
